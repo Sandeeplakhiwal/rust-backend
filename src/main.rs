@@ -1,3 +1,5 @@
+use std::{f64::consts::PI, fs};
+
 
 fn get_first_word(str: String)->String {
     let mut first_word = String::from("");
@@ -24,6 +26,52 @@ fn borrow_variable(str: &String) {
 
 fn update_borrwed_string(some_string: &mut String) {
     some_string.push_str(", New Word");
+}
+
+struct User {
+    name: String,
+    email: String,
+    age: u8,
+    active: bool
+}
+
+struct Rect {
+    height: u32,
+    width: u32
+}
+
+impl Rect {
+    fn area(&self)->u32 {
+        return self.height * self.width;
+    }
+}
+
+#[derive(Debug)]
+enum Direction {
+    North,
+    South,
+    East,
+    West
+}
+
+fn move_around(direction: Direction) {
+    println!("I am moving towards {:?}", direction);
+}
+
+enum Shape {
+    Circle(f64),
+    Square(f64),
+    Rectangle(f64, f64)
+}
+
+fn calculate_area(shape: Shape)->f64 {
+    let ans = match shape {
+        Shape::Circle(radius) => PI * radius*radius,
+        Shape::Square(side_length) => side_length * side_length,
+        Shape::Rectangle(width, height) => width*height
+    };
+
+    return ans;
 }
 
 fn main() {
@@ -112,8 +160,46 @@ fn main() {
     /* Struct */
     let user1 = User {
         active: true,
-        name: String::from(value)
+        name: String::from("Sandeep Lakhiwal"),
+        email: String::from("sandeeplakhiwal98@gmail.com"),
+        age: 20
+    };
+
+    println!("User1=> name: {:?}, email: {:?}", user1.name, user1.email);
+
+    let rect = Rect {
+        height: 30,
+        width: 25
+    };
+
+    println!("The area of the rectangular is {:?}", rect.area());
+
+    /* Enums */
+    move_around(Direction::North);
+
+    /* Enums with values */
+    let circle = Shape::Circle(5.0);
+    let square = Shape::Square(4.0);
+    let rectangle = Shape::Rectangle(3.0, 6.0);
+    
+
+    let area_of_square = calculate_area(square);
+
+    println!("Area of square: {:?}", area_of_square);
+
+
+    /* Error handling */
+    let res = fs::read_to_string("src/example.txt");
+
+    match res {
+        Ok(content) => {
+            println!("File content: {}", content);
+        }
+        Err(err) => {
+            println!("Error: {}", err)
+        }
     }
+
 }
 
 
@@ -124,7 +210,7 @@ fn main() {
 
 // struct User {
 //     name: String,
-//     email: String,
+//     email: String
 //     age: u8,
 //     active: bool
 // }
