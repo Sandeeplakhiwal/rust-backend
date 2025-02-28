@@ -1,4 +1,7 @@
-use std::{f64::consts::PI, fs};
+use std::{collections::HashMap, f64::consts::PI, fs};
+
+use chrono::{Local, Utc};
+use rand::{seq::index, thread_rng, Rng};
 
 
 fn get_first_word(str: String)->String {
@@ -72,6 +75,44 @@ fn calculate_area(shape: Shape)->f64 {
     };
 
     return ans;
+}
+
+fn find_fisrt_a(name: String)-> Option<i32> {
+    for (index, character) in name.chars().enumerate(){
+        if character == 'a' {
+            return Some(index as i32)
+        }
+    }
+    return None;
+}
+
+fn is_vector_even(v: Vec<u32>) -> bool {
+    for item in v.iter() {
+        if item % 2 != 0 {
+            return  false;
+        }
+    }
+    return true;
+}
+
+fn vector_with_even_values(v: Vec<u32>) -> Vec<u32> {
+    let mut new_vector = v;
+    for item in 1..(50+1) {
+        if item % 2 == 0 {
+            new_vector.push(item);
+        }
+    }
+    return new_vector;
+}
+
+fn even_filter(v: &Vec<u32>) -> Vec<u32> {
+    let mut res = Vec::new();
+    for item in v {
+        if item % 2 == 0 {
+            res.push(*item);
+        }
+    }
+    return res;
 }
 
 fn main() {
@@ -198,6 +239,71 @@ fn main() {
         Err(err) => {
             println!("Error: {}", err)
         }
+    }
+
+    let name_of_someone = String::from("Nilam");
+
+    match find_fisrt_a(name_of_someone)  {
+        Some(index) => println!("The letter 'a' is found at index: {}", index),
+        None => println!("The letter 'a' is not found in the string.")
+    };  
+
+    /* Generate a random number using Rand package/crate/library */ 
+    let mut rng = thread_rng();
+
+    let n:u32= rng.gen();
+
+    println!("Random number: {}", n);
+
+    let now = Utc::now();
+
+    println!("Current date and time in UTC: {}", now);
+
+    let local = Local::now();
+    println!("Current date and time in local: {}", local);
+
+
+    /* Vectors */
+    let mut vec = Vec::new();
+    // vec.push(1);
+    vec.push(1);
+    vec.push(2);
+    vec.push(3);
+    vec.push(4);
+    vec.push(5);
+    vec.push(6);
+
+    println!("Vector is: {:?}", vec);
+
+    let even_values_vector = vector_with_even_values(Vec::new());
+
+    println!("Vector with even values within 50: {:?}", even_values_vector);
+
+    println!("Is Even: {}", is_vector_even(even_values_vector));
+
+
+    println!("Filtered even values: {:?}", even_filter(&vec));
+
+    println!("Check: {:?}", vec);
+
+    /* Initialize vector using vec macros */
+    let vec1 = vec![9, 8, 7, 6, 5, 4];
+    
+    println!("Vec1: {:?}", vec1);
+
+    /* Hashmaps */
+    let mut users_ages = HashMap::new();
+    
+    users_ages.insert(String::from("Sandeep"), 20);
+    users_ages.insert(String::from("Nitin"), 22);
+
+    println!("{:?}", users_ages);
+
+    let first_user_age = users_ages.get("Sandeep");
+
+    match first_user_age {
+        Some(age) => println!("Age of first user is {}.", age),
+        None => println!("Given name user doesn't exists in users array.")
     }
 
 }
